@@ -6,9 +6,9 @@ Vagrant.configure("2") do |config|
         control.vm.hostname = "hperrinS"
         control.vm.network "private_network", ip: "192.168.56.110"
         control.vm.provider "virtualbox" do |v|
-            v.customize ["modifyvm", :id, "--name", "hperrinS"]
-            v.customize ["modifyvm", :id, "--memory", "512"]
-            v.customize ["modifyvm", :id, "--cpus", "1"]
+            v.name = "hperrinS"
+            v.memory = 1024
+            v.cpus = 1
         end
         control.vm.provision "shell", path: "provisions/install-k3s-server.sh"
     end
@@ -17,9 +17,9 @@ Vagrant.configure("2") do |config|
         control.vm.hostname = "hperrinSW"
         control.vm.network "private_network", ip: "192.168.56.111"
         control.vm.provider "virtualbox" do |v|
-            v.customize ["modifyvm", :id, "--name", "hperrinSW"]
-            v.customize ["modifyvm", :id, "--memory", "512"]
-            v.customize ["modifyvm", :id, "--cpus", "1"]
+            v.name = "hperrinSW"
+            v.memory = 1024
+            v.cpus = 1
         end
         control.vm.provision "shell", path: "provisions/install-k3s-agent.sh"
     end
