@@ -1,0 +1,14 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "generic/alpine38"
+    config.vm.box_version = "4.3.12"
+
+    config.vm.define "hperrinS" do |control|
+        control.vm.hostname = "hperrinS"
+        control.vm.network "public_network", ip: "192.168.56.110"
+    end
+
+    config.vm.define "hperrinSW" do |control|
+        control.vm.hostname = "hperrinSW"
+        control.vm.network "public_network", ip: "192.168.56.111"
+    end
+end
