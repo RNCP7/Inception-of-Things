@@ -1,26 +1,30 @@
 Vagrant.configure("2") do |config|
-    config.vm.box = "generic/alpine38"
+    config.vm.box = "generic/debian12"
     config.vm.box_version = "4.3.12"
 
     config.vm.define "hperrinS" do |control|
         control.vm.hostname = "hperrinS"
         control.vm.network "private_network", ip: "192.168.56.110"
-        control.vm.provider "virtualbox" do |v|
-            v.name = "hperrinS"
+        control.vm.provider "libvirt" do |v|
             v.memory = 1024
             v.cpus = 1
+            v.driver = "qemu"
         end
-        control.vm.provision "shell", path: "provisions/install-k3s-server.sh"
+        control.vm.provision "shell", path: "provisions/install-k3s-server.sh", env: {"KUBECONFIG": "~/config/config.yaml"}
+        control.vm.provision "shell", path: "provisions/uninstall-k3s.sh", name: "uninstall-k3s", run: "never"
+        #config.vm.provision "file", source: "config/config.yaml", destination: "/etc/rancher/k3s/config.yaml"
     end
 
     config.vm.define "hperrinSW" do |control|
         control.vm.hostname = "hperrinSW"
         control.vm.network "private_network", ip: "192.168.56.111"
-        control.vm.provider "virtualbox" do |v|
-            v.name = "hperrinSW"
+        control.vm.provider "libvirt" do |v|
             v.memory = 1024
             v.cpus = 1
+            v.driver = "qemu"
         end
-        control.vm.provision "shell", path: "provisions/install-k3s-agent.sh"
+        control.vm.provision "shell", path: "provisions/install-k3s-agent.sh", env: {"KUBECONFIG": "~/config/config.yaml"}
+        control.vm.provision "shell", path: "provisions/uninstall-k3s.sh", name: "uninstall-k3s", run: "never"
+        #config.vm.provision "file", source: "config/config.yaml", destination: "/etc/rancher/k3s/config.yaml"
     end
 end
