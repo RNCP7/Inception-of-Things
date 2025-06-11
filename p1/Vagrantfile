@@ -6,8 +6,8 @@ Vagrant.configure("2") do |config|
         server.vm.hostname = "hperrinS"
         server.vm.network "private_network", ip: "192.168.56.110"
         server.vm.provider "libvirt" do |v|
-            v.memory = 1024
-            v.cpus = 1
+            v.memory = 8192
+            v.cpus = 4
             v.driver = "qemu"
         end
         server.vm.provision "shell", path: "provisions/install-k3s-server.sh", env: {"KUBECONFIG": "~/config/config.yaml"}
@@ -19,8 +19,8 @@ Vagrant.configure("2") do |config|
         worker.vm.hostname = "hperrinSW"
         worker.vm.network "private_network", ip: "192.168.56.111"
         worker.vm.provider "libvirt" do |v|
-            v.memory = 1024
-            v.cpus = 1
+            v.memory = 4096
+            v.cpus = 2
             v.driver = "qemu"
         end
         worker.vm.provision "shell", path: "provisions/install-k3s-agent.sh", env: {"KUBECONFIG": "~/config/config.yaml"}
