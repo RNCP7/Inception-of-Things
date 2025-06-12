@@ -10,9 +10,8 @@ Vagrant.configure("2") do |config|
             v.cpus = 4
             v.driver = "qemu"
         end
-        server.vm.provision "shell", path: "provisions/install-k3s-server.sh", env: {"KUBECONFIG": "~/config/config.yaml"}
+        server.vm.provision "shell", path: "provisions/install-k3s-server.sh", env: {"PASSWORD": ENV["PASSWORD"]}
         server.vm.provision "shell", path: "provisions/uninstall-k3s.sh", name: "uninstall-k3s", run: "never"
-        #server.vm.provision "file", source: "config/config.yaml", destination: "/etc/rancher/k3s/config.yaml"
     end
 
     config.vm.define "hperrinSW" do |worker|
@@ -23,8 +22,7 @@ Vagrant.configure("2") do |config|
             v.cpus = 2
             v.driver = "qemu"
         end
-        worker.vm.provision "shell", path: "provisions/install-k3s-agent.sh", env: {"KUBECONFIG": "~/config/config.yaml"}
+        worker.vm.provision "shell", path: "provisions/install-k3s-agent.sh", env: {"PASSWORD": ENV["PASSWORD"]}
         worker.vm.provision "shell", path: "provisions/uninstall-k3s.sh", name: "uninstall-k3s", run: "never"
-        #worker.vm.provision "file", source: "config/config.yaml", destination: "/etc/rancher/k3s/config.yaml"
     end
 end
