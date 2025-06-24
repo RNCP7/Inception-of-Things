@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: actual-budget
+spec:
+  selector:
+    matchLabels:
+      app: actual-budget
+  template:
+    metadata:
+      labels:
+        app: actual-budget
+    spec:
+      containers:
+        - name: actual-server
+          image: actualbudget/actual-server:latest-alpine
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: actual-service
+spec:
+  ports:
+    - port: 5006
+  selector:
+    app: actual-budget
+  type: LoadBalancer
