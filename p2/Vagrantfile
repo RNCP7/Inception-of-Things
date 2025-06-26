@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "lseillerS" do |server|
         server.vm.hostname = "lseillerS"
         server.vm.network "private_network", ip: "192.168.56.110"
+        server.vm.network "forwarded_port", guest: 443, host: 443
         server.vm.provider "virtualbox" do |v|
             v.memory = 8192
             v.cpus = 4

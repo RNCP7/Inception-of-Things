@@ -1,7 +1,7 @@
 #!/bin/sh
-curl -sfL https://get.k3s.io | sudo sh -s -
+curl -sfL https://get.k3s.io | sudo sh -s - --write-kubeconfig-mode=644
 
-until TOKEN=$(sudo k3s token create --ttl 2m); do
+until kubectl version &> /dev/null; do
 	sleep 5
 done
-sudo echo $TOKEN > /vagrant/token
+k3s token create --ttl 2m > /vagrant/token
