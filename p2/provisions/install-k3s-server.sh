@@ -1,2 +1,2 @@
 #!/bin/sh
-curl -sfL https://get.k3s.io | sudo sh -s -
+curl -sfL https://get.k3s.io | sudo sh -s - --write-kubeconfig-mode=644

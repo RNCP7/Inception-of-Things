@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redlib
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: redlib
+  template:
+    metadata:
+      labels:
+        app: redlib
+    spec:
+      containers:
+        - name: redlib-server
+          image: quay.io/redlib/redlib:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redlib-service
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: redlib
+  type: LoadBalancer

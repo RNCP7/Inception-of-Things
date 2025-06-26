@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dumb-drop
+spec:
+  selector:
+    matchLabels:
+      app: dumb-drop
+  template:
+    metadata:
+      labels:
+        app: dumb-drop
+    spec:
+      containers:
+        - name: dumb-server
+          image: dumbwareio/dumbdrop:latest
+          env:
+          - name: UPLOAD_DIR
+            value: "/app/uploads"
+          volumeMounts:
+            - name: dumb-files
+              mountPath: /app/uploads
+      volumes:
+        - name: dumb-files
+          hostPath:
+            path: /vagrant/dumb-files
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dumb-service
+spec:
+  ports:
+    - port: 3000
+  selector:
+    app: dumb-drop
+  type: LoadBalancer
