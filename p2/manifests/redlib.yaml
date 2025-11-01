@@ -25,4 +25,4 @@ spec:
     - port: 8080
   selector:
     app: redlib
-  type: LoadBalancer
+  type: ClusterIP

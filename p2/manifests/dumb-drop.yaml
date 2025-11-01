@@ -35,4 +35,4 @@ spec:
     - port: 3000
   selector:
     app: dumb-drop
-  type: LoadBalancer
+  type: ClusterIP
